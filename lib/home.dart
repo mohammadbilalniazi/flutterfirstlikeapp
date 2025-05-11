@@ -55,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child:Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('$_indexMessage index of message'),
+              Text('$messages[_indexMessage] '),
               Row(mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 FloatingActionButton(onPressed: _decrementMessageIndex,tooltip:'Go Left',child: const Icon(Icons.arrow_left)),
