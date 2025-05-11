@@ -8,20 +8,39 @@ class MyHomePage extends StatefulWidget { //A StatefulWidget because it needs to
   State<MyHomePage> createState() => _MyHomePageState();
 }
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  int _indexMessage = 0;
   int _like=0;
+
+  final List<String> messages=[
+    'Hello','Go','Run'
+  ];
 
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
-      _counter++;
+
       _like++;
     });
   }
-  void __decrementCounter(){
+  void _incrementMessageIndex(){
     setState((){
-      _counter--;
+      if(_indexMessage==2){
+        return;
+      }
+      _indexMessage++;
+    });
+  }
+  void _decrementMessageIndex(){
+    setState((){
+      if(_indexMessage==0 ){
+        return;
+      }
+      _indexMessage--;
+    });
+  }
+  void _decrementCounter(){
+    setState((){
       _like--;
     });
   }
@@ -36,8 +55,16 @@ class _MyHomePageState extends State<MyHomePage> {
           child:Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Text('$_indexMessage index of message'),
+              Row(mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FloatingActionButton(onPressed: _decrementMessageIndex,tooltip:'Go Left',child: const Icon(Icons.arrow_left)),
+                const SizedBox(width: 8),
+                FloatingActionButton(onPressed: _incrementMessageIndex,tooltip:'Go Right',child: const Icon(Icons.arrow_right)),
+              ],
+              ),
               const Text('You Have Pressed'),
-              Text('$_counter',style: Theme.of(context).textTheme.headlineMedium,),
+              Text('$_indexMessage',style: Theme.of(context).textTheme.headlineMedium,),
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -55,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children:[
             FloatingActionButton(onPressed: _incrementCounter,tooltip: 'Like/Increment',child: const Icon(Icons.thumb_up),),
             const SizedBox(width:8),
-            FloatingActionButton(onPressed: __decrementCounter,tooltip: 'unLike/decrement',child: const Icon(Icons.thumb_down),),
+            FloatingActionButton(onPressed: _decrementCounter,tooltip: 'unLike/decrement',child: const Icon(Icons.thumb_down),),
           ]
       ),
 
