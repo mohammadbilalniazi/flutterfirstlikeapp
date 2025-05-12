@@ -9,26 +9,35 @@ class MyHomePage extends StatefulWidget { //A StatefulWidget because it needs to
 }
 class _MyHomePageState extends State<MyHomePage> {
   int _indexMessage = 0;
+  List <int> _likes=[0,0,0];
   int _like=0;
 
   final List<String> messages=[
     'Hello','Go','Run'
   ];
 
-  void _incrementCounter() {
+  void likePost() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
-
+      print("########before like $_like  likes $_likes");
       _like++;
+      _likes[_indexMessage]++;
+    });
+  }
+  void dislikePost(){
+    setState((){
+      _like--;
+      _likes[_indexMessage]--;
     });
   }
   void _incrementMessageIndex(){
     setState((){
-      if(_indexMessage==2){
+      if(_indexMessage==messages.length-1){
         return;
       }
       _indexMessage++;
+      
     });
   }
   void _decrementMessageIndex(){
@@ -39,11 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _indexMessage--;
     });
   }
-  void _decrementCounter(){
-    setState((){
-      _like--;
-    });
-  }
+
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -55,15 +60,22 @@ class _MyHomePageState extends State<MyHomePage> {
           child:Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('$messages[_indexMessage] '),
+              Row(
+                children: [
+                  Expanded(child:Text(messages[_indexMessage],style:Theme.of(context).textTheme.headlineLarge)),
+                  Text('❤️ ${_likes[_indexMessage]}',style:Theme.of(context).textTheme.headlineLarge)
+                ],
+              ),
               Row(mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 FloatingActionButton(onPressed: _decrementMessageIndex,tooltip:'Go Left',child: const Icon(Icons.arrow_left)),
-                const SizedBox(width: 8),
+                const SizedBox(width: 15),
                 FloatingActionButton(onPressed: _incrementMessageIndex,tooltip:'Go Right',child: const Icon(Icons.arrow_right)),
               ],
               ),
-              const Text('You Have Pressed'),
+              Container(margin: EdgeInsets.only(top:20),
+                child:Text('You Have Pressed',style:TextStyle(fontSize:20)) ,
+              ),
               Text('$_indexMessage',style: Theme.of(context).textTheme.headlineMedium,),
               const SizedBox(height: 20),
               Row(
@@ -80,9 +92,9 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: Column(
           mainAxisAlignment:MainAxisAlignment.end,
           children:[
-            FloatingActionButton(onPressed: _incrementCounter,tooltip: 'Like/Increment',child: const Icon(Icons.thumb_up),),
+            FloatingActionButton(onPressed: likePost,tooltip: 'Like/Increment',child: const Icon(Icons.thumb_up),),
             const SizedBox(width:8),
-            FloatingActionButton(onPressed: _decrementCounter,tooltip: 'unLike/decrement',child: const Icon(Icons.thumb_down),),
+            FloatingActionButton(onPressed: dislikePost,tooltip: 'unLike/decrement',child: const Icon(Icons.thumb_down),),
           ]
       ),
 
