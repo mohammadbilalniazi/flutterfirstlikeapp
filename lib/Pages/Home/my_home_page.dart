@@ -1,3 +1,4 @@
+import 'package:firstapp/Pages/Home/home_page_body.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget { //A StatefulWidget because it needs to store changing values (_counter and _like).
@@ -10,7 +11,7 @@ class MyHomePage extends StatefulWidget { //A StatefulWidget because it needs to
 class _MyHomePageState extends State<MyHomePage> {
   int _indexMessage = 0;
   List <int> _likes=[0,0,0];
-  int _like=0;
+  int totalLikes=0;
 
   final List<String> messages=[
     'Hello','Go','Run'
@@ -20,18 +21,18 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
-      print("########before like $_like  likes $_likes");
-      _like++;
+      print("########before like $totalLikes  likes $_likes");
+      totalLikes++;
       _likes[_indexMessage]++;
     });
   }
   void dislikePost(){
     setState((){
-      _like--;
+      totalLikes--;
       _likes[_indexMessage]--;
     });
   }
-  void _incrementMessageIndex(){
+  void onNext(){
     setState((){
       if(_indexMessage==messages.length-1){
         return;
@@ -40,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
       
     });
   }
-  void _decrementMessageIndex(){
+  void onPrevious(){
     setState((){
       if(_indexMessage==0 ){
         return;
@@ -56,39 +57,10 @@ class _MyHomePageState extends State<MyHomePage> {
         title:Text(widget.title),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
-      body: Center(
-          child:Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                children: [
-                  Expanded(child:Text(messages[_indexMessage],style:Theme.of(context).textTheme.headlineLarge)),
-                  Text('❤️ ${_likes[_indexMessage]}',style:Theme.of(context).textTheme.headlineLarge)
-                ],
-              ),
-              Row(mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FloatingActionButton(onPressed: _decrementMessageIndex,tooltip:'Go Left',child: const Icon(Icons.arrow_left)),
-                const SizedBox(width: 15),
-                FloatingActionButton(onPressed: _incrementMessageIndex,tooltip:'Go Right',child: const Icon(Icons.arrow_right)),
-              ],
-              ),
-              Container(margin: EdgeInsets.only(top:20),
-                child:Text('You Have Pressed',style:TextStyle(fontSize:20)) ,
-              ),
-              Text('$_indexMessage',style: Theme.of(context).textTheme.headlineMedium,),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.favorite,color:Colors.red),
-                  const SizedBox(width: 8),
-                  Text('$_like likes',style:Theme.of(context).textTheme.headlineSmall,)
-                ],
-              )
-            ],
-          )
-      ),//Body
+      // body: Center( previously it was there
+      //     )
+      // ),//Body
+      body:buildBodyUI(context, messages, _indexMessage, _likes, totalLikes, onNext, onPrevious),
       floatingActionButton: Column(
           mainAxisAlignment:MainAxisAlignment.end,
           children:[
