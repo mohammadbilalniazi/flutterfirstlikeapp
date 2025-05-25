@@ -1,4 +1,5 @@
 import 'package:firstapp/Pages/Home/home_page_body.dart';
+import 'package:firstapp/Pages/User/login.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget { //A StatefulWidget because it needs to store changing values (_counter and _like).
@@ -56,6 +57,11 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar:AppBar(
         title:Text(widget.title),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        actions:[
+          IconButton(onPressed: (){
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const LoginPage()));
+          }, icon: Icon(Icons.logout))
+        ],
       ),
       // body: Center( previously it was there
       //     )

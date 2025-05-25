@@ -31,6 +31,9 @@ class _LoginPageState  extends State<LoginPage>{
             context,MaterialPageRoute(builder: (context)=>const NavBarPage())
         );
       }
+      else{
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Login Not Success')));
+      }
       //     // Navigate to home on success
     }
   } //_login
