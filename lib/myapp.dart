@@ -6,12 +6,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MyApp extends StatelessWidget { //does not hold mutable state
-  const MyApp({super.key});
+  const MyApp({super.key,required this.title});
+  final String title;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: this.title,
       theme: ThemeData(
         // This is the theme of your application.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
@@ -36,6 +37,7 @@ class _NavBarPageState extends State<NavBarPage>{
     UserPage(),
     CommentsPage(),
   ];
+  final List<String> _titles=["Home","User","💬 Comment"];
   void _onNavTap(int index){
     setState(() {
       _selectedIndex=index;
@@ -44,6 +46,15 @@ class _NavBarPageState extends State<NavBarPage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar:AppBar(
+        title:Text(_titles[_selectedIndex]),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        actions:[
+          IconButton(onPressed: (){
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const LoginPage()));
+          }, icon: Icon(Icons.logout))
+        ],
+      ),
       body:IndexedStack(
         index: _selectedIndex,
         children: _pages,

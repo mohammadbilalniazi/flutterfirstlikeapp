@@ -54,18 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      appBar:AppBar(
-        title:Text(widget.title),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        actions:[
-          IconButton(onPressed: (){
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const LoginPage()));
-          }, icon: Icon(Icons.logout))
-        ],
-      ),
-      // body: Center( previously it was there
-      //     )
-      // ),//Body
+
       body:buildBodyUI(context, messages, _indexMessage, _likes, totalLikes, onNext, onPrevious),
       floatingActionButton: Column(
           mainAxisAlignment:MainAxisAlignment.end,
