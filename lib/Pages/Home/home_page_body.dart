@@ -2,7 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-Widget buildBodyUI(BuildContext context,List<String> messages,int indexMessage,List<int> likes,int totalLikes,VoidCallback onNext,VoidCallback onPrevious){
+Widget buildBodyUI(BuildContext context,List<String> comments,int indexMessage,List<int> likes,int totalLikes,VoidCallback onNext,VoidCallback onPrevious){
   return
       Center(
           child:Column(
@@ -10,7 +10,7 @@ Widget buildBodyUI(BuildContext context,List<String> messages,int indexMessage,L
             children: [
               Row(
                 children: [
-                  Expanded(child:Text(messages[indexMessage],style:Theme.of(context).textTheme.headlineLarge)),
+                  Expanded(child:Text(comments[indexMessage],style:Theme.of(context).textTheme.headlineLarge)),
                   Text('❤️ ${likes[indexMessage]}',style:Theme.of(context).textTheme.headlineLarge)
                 ],
               ),

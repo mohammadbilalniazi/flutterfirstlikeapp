@@ -1,5 +1,7 @@
+import 'package:firstapp/States/comment.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CommentsPage extends StatefulWidget{
   const CommentsPage({super.key});
@@ -8,29 +10,11 @@ class CommentsPage extends StatefulWidget{
 }
 
 class _CommentsPageState extends State<CommentsPage>{
-  final List<String> _comments=[];
-  final TextEditingController _controller=TextEditingController();
-
-  void _addComment(){
-    final text=_controller.text.trim();
-    if(text.isNotEmpty){
-      setState((){
-        _comments.add(text);
-        _controller.clear();
-      });
-    }
-  }
-
-  void _deleteComment(int index){
-    setState((){
-      _comments.removeAt(index);
-    });
-  }
-
+  final TextEditingController controller=TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final commentState=Provider.of<CommentState>(context);
     return Scaffold(
-
         body:Column(children: [
           Padding(
             padding:const EdgeInsets.all(12.0),
@@ -38,7 +22,7 @@ class _CommentsPageState extends State<CommentsPage>{
               children: [
                 Expanded(
                   child:TextField(
-                    controller:_controller,
+                    controller:controller,
                     decoration: const InputDecoration(
                       labelText:"Add A Comment",
                       border: OutlineInputBorder(),
@@ -47,19 +31,25 @@ class _CommentsPageState extends State<CommentsPage>{
                 ),
                 IconButton(
                   icon:const Icon(Icons.add),
-                  onPressed: _addComment,
+                  onPressed: (){
+                    String comment=controller.text.trim();
+                    if(comment.isNotEmpty){
+                      commentState.addComment(comment);
+                      controller.clear();
+                    }
+                  },
                 )
               ],
             )
           ),
           const Divider(),
           Expanded(
-              child: _comments.isEmpty?const Center(child:Text("No Comments Yet")):ListView.builder(
-                  itemCount:_comments.length ,
+              child: commentState.comments.isEmpty?const Center(child:Text("No Comments Yet")):ListView.builder(
+                  itemCount:commentState.comments.length ,
                   itemBuilder: (context,index){
                   return ListTile(
-                      title: Text(_comments[index]),
-                      trailing: IconButton(onPressed:()=> _deleteComment(index),
+                      title: Text(commentState.comments[index]),
+                      trailing: IconButton( onPressed: ()=>commentState.removeComment(index),
                       icon: const Icon(Icons.delete))
               );
           }))
