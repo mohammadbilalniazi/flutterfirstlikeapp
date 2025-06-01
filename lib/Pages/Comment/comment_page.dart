@@ -37,6 +37,11 @@ class _CommentsPageState extends State<CommentsPage>{
                       commentState.addComment(comment);
                       controller.clear();
                     }
+                    else{
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content:Text("Add Comment"),duration:Duration(seconds:2),backgroundColor: Colors.redAccent)
+                      );
+                    }
                   },
                 )
               ],
@@ -45,12 +50,12 @@ class _CommentsPageState extends State<CommentsPage>{
           const Divider(),
           Expanded(
               child: commentState.comments.isEmpty?const Center(child:Text("No Comments Yet")):ListView.builder(
-                  itemCount:commentState.comments.length ,
-                  itemBuilder: (context,index){
-                  return ListTile(
-                      title: Text(commentState.comments[index]),
-                      trailing: IconButton( onPressed: ()=>commentState.removeComment(index),
-                      icon: const Icon(Icons.delete))
+              itemCount:commentState.comments.length ,
+              itemBuilder: (context,index){
+              return ListTile(
+                  title: Text('${commentState.comments[index]}-${commentState.likes[index]}'),
+                  trailing: IconButton( onPressed: ()=>commentState.removeComment(index),
+                  icon: const Icon(Icons.delete,color:Colors.red))
               );
           }))
         ],)
